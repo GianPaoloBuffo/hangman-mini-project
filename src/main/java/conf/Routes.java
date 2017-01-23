@@ -41,11 +41,6 @@ public class Routes implements ApplicationRoutes {
     @Override
     public void init(Router router) {
 
-        // puts test data into db:
-        if (!ninjaProperties.isProd()) {
-            router.GET().route("/setup").with(ApplicationController.class, "setup");
-        }
-
         ///////////////////////////////////////////////////////////////////////
         // Login / Logout
         ///////////////////////////////////////////////////////////////////////

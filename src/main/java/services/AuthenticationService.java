@@ -3,8 +3,8 @@ package services;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.persist.Transactional;
-import dao.UserDao;
-import models.User;
+import dao.HangmanUserDao;
+import models.HangmanUser;
 import ninja.Context;
 import ninja.Result;
 import ninja.Results;
@@ -17,7 +17,7 @@ import javax.persistence.FlushModeType;
 public class AuthenticationService {
 
     @Inject
-    UserDao userDao;
+    HangmanUserDao userDao;
 
     @Inject
     Provider<EntityManager> entityManagerProvider;
@@ -52,7 +52,7 @@ public class AuthenticationService {
         // Salt and hash password using BCrypt
         password = BCrypt.hashpw(password, BCrypt.gensalt());
 
-        User newUser = new User(username, password, fullname);
+        HangmanUser newUser = new HangmanUser(username, password, fullname);
         entityManager.persist(newUser);
 
         entityManager.setFlushMode(FlushModeType.COMMIT);

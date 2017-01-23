@@ -16,31 +16,14 @@
 
 package controllers;
 
-import com.google.inject.Inject;
-import dao.SetupDao;
+import com.google.inject.Singleton;
 import filters.SecureFilter;
 import ninja.FilterWith;
 import ninja.Result;
 import ninja.Results;
 
+@Singleton
 public class ApplicationController {
-
-    @Inject
-    SetupDao setupDao;
-
-    public ApplicationController() {
-
-    }
-
-    /**
-     * Method to put initial data in the db...
-     *
-     * @return
-     */
-    public Result setup() {
-        setupDao.setup();
-        return Results.ok();
-    }
 
     @FilterWith(SecureFilter.class)
     public Result index() {

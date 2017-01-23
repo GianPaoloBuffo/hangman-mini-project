@@ -46,8 +46,8 @@ public class AuthenticationController {
     ///////////////////////////////////////////////////////////////////////////
     public Result logout(Context context) {
         // remove any user dependent information
-        context.getSessionCookie().clear();
-        context.getFlashCookie().success("login.logoutSuccessful");
+        context.getSession().clear();
+        context.getFlashScope().success("login.logoutSuccessful");
 
         return Results.redirect("/login");
     }

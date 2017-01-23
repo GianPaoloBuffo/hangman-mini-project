@@ -19,7 +19,7 @@ package dao;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import models.User;
+import models.HangmanUser;
 import ninja.jpa.UnitOfWork;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -28,7 +28,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 
-public class UserDao {
+public class HangmanUserDao {
 
     @Inject
     Provider<EntityManager> entityManagerProvider;
@@ -38,8 +38,8 @@ public class UserDao {
         if (username != null && password != null) {
             EntityManager entityManager = entityManagerProvider.get();
 
-            TypedQuery<User> q = entityManager.createQuery("SELECT x FROM User x WHERE username = :usernameParam", User.class);
-            User user = getSingleResult(q.setParameter("usernameParam", username));
+            TypedQuery<HangmanUser> q = entityManager.createQuery("SELECT x FROM HangmanUser x WHERE username = :usernameParam", HangmanUser.class);
+            HangmanUser user = getSingleResult(q.setParameter("usernameParam", username));
 
             if (user != null) {
                 // Check entered password against hashed password using BCrypt
