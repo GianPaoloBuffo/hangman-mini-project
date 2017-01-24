@@ -61,9 +61,11 @@ public class HangmanService {
         word = word.toUpperCase();
 
         String newGuess = "";
+        boolean correctGuess = false;
         for (int i = 0; i < word.length(); i++) {
             if (word.charAt(i) == letter) {
                 newGuess += letter;
+                correctGuess = true;
             }
             else {
                 newGuess += guess.charAt(i);
@@ -73,7 +75,7 @@ public class HangmanService {
         if (newGuess.equals(word)) {
             victory = true;
         }
-        else {
+        else if (!correctGuess) {
             tries++;
             if (tries == MAX_TRIES) {
                 guess = word;
@@ -95,6 +97,10 @@ public class HangmanService {
 
     public String getWord() {
         return word;
+    }
+
+    public byte getTries() {
+        return tries;
     }
 
     public String getGuess() {
