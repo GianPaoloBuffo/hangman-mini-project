@@ -20,6 +20,8 @@ public class GameController {
 
         result.render("wordLength", hangmanService.getWord().length());
         result.render("wordGuess", hangmanService.getGuess());
+        result.render("gameVictory", hangmanService.isVictory());
+        result.render("gameDefeat", hangmanService.isDefeat());
 
         return result;
     }

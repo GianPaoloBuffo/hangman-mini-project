@@ -17,8 +17,13 @@ public class HangmanService {
     @Inject
     Provider<EntityManager> entityManagerProvider;
 
+    private final byte MAX_TRIES = 6;
+
     private String word;
+    private byte tries = 0;
     private boolean gameRunning = false;
+    private boolean victory = false;
+    private boolean defeat = false;
 
     public String guess = "";
 
@@ -37,7 +42,6 @@ public class HangmanService {
             "imperfect"
     };
 
-    // TODO the word is randomizing on each submit
     public void startGame() {
         if (!gameRunning) {
             word = getRandomWord(words);
@@ -54,10 +58,11 @@ public class HangmanService {
 
     public Result guess(char letter) {
         letter = Character.toUpperCase(letter);
+        word = word.toUpperCase();
 
         String newGuess = "";
         for (int i = 0; i < word.length(); i++) {
-            if (Character.toUpperCase(word.charAt(i)) == letter) {
+            if (word.charAt(i) == letter) {
                 newGuess += letter;
             }
             else {
@@ -65,7 +70,21 @@ public class HangmanService {
             }
         }
 
-        guess = newGuess;
+        if (newGuess.equals(word)) {
+            victory = true;
+        }
+        else {
+            tries++;
+            if (tries == MAX_TRIES) {
+                guess = word;
+                defeat = true;
+            }
+        }
+
+        if (!defeat) {
+            guess = newGuess;
+        }
+
         return Results.redirect("/game");
     }
 
@@ -88,5 +107,13 @@ public class HangmanService {
 
     public void setGameRunning(boolean gameRunning) {
         this.gameRunning = gameRunning;
+    }
+
+    public boolean isVictory() {
+        return victory;
+    }
+
+    public boolean isDefeat() {
+        return defeat;
     }
 }
