@@ -19,6 +19,7 @@ package conf;
 import com.google.inject.Inject;
 import controllers.ApplicationController;
 import controllers.AuthenticationController;
+import controllers.GameController;
 import ninja.AssetsController;
 import ninja.Router;
 import ninja.application.ApplicationRoutes;
@@ -53,6 +54,12 @@ public class Routes implements ApplicationRoutes {
         ///////////////////////////////////////////////////////////////////////
         router.GET().route("/register").with(AuthenticationController.class, "register");
         router.POST().route("/register").with(AuthenticationController.class, "registerPost");
+
+        ///////////////////////////////////////////////////////////////////////
+        // Game
+        ///////////////////////////////////////////////////////////////////////
+        router.GET().route("/game").with(GameController.class, "game");
+        router.POST().route("/game").with(GameController.class, "gamePost");
 
         ///////////////////////////////////////////////////////////////////////
         // Assets (pictures / javascript)

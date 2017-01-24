@@ -43,7 +43,7 @@ public class HangmanUserDao {
 
             if (user != null) {
                 // Check entered password against hashed password using BCrypt
-                if (BCrypt.checkpw(password, user.password)) {
+                if (BCrypt.checkpw(password, user.getPassword())) {
                     return true;
                 }
             }

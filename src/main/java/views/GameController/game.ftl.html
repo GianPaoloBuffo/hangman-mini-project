@@ -1,0 +1,27 @@
+
+
+<#import "../layout/defaultLayout.ftl.html" as layout>
+    <@layout.myLayout "Game">
+
+    <h1 class="text-center">Guess The Word!</h1>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <img class="" style="width: 70%" src="/assets/images/hangman_0.png" alt="hangman" />
+        </div>
+        <div class="col-xs-6">
+            <br/><br/>
+            <form action="/game" method="post" role="form">
+                <input class="form-control text-center" placeholder="Your Guess" autofocus id="guess" name="guess" />
+                <button class="btn btn-success" style="margin-top: 10px; margin-left: 44%">Submit</button>
+            </form>
+
+            <br />
+            <p class="text-center"><strong>Word Length: ${wordLength}</strong></p>
+
+            <br/><br/>
+            <h1 class="text-center">${wordGuess}</h1>
+        </div>
+    </div>
+
+</@layout.myLayout>

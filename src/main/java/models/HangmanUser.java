@@ -10,11 +10,11 @@ public class HangmanUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long id;
+    private Long id;
 
-    public String username;
-    public String password;
-    public String fullname;
+    private String username;
+    private String password;
+    private String fullname;
 
     public HangmanUser() {
     }
@@ -23,6 +23,10 @@ public class HangmanUser {
         this.username = username;
         this.password = password;
         this.fullname = fullname;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getUsername() {

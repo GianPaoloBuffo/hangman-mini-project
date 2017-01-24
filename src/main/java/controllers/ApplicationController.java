@@ -27,6 +27,7 @@ public class ApplicationController {
 
     @FilterWith(SecureFilter.class)
     public Result index() {
-        return Results.html();
+//        return Results.html();
+        return Results.redirect("/game");
     }
 }
