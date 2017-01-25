@@ -28,7 +28,7 @@ import services.AuthenticationService;
 public class AuthenticationController {
 
     @Inject
-    AuthenticationService authenticationService;
+    private AuthenticationService authenticationService;
 
     ///////////////////////////////////////////////////////////////////////////
     // Login
@@ -39,17 +39,6 @@ public class AuthenticationController {
 
     public Result loginPost(@Param("username") String username, @Param("password") String password, Context context) {
         return authenticationService.login(username, password, context, false);
-    }
-
-    ///////////////////////////////////////////////////////////////////////////
-    // Logout
-    ///////////////////////////////////////////////////////////////////////////
-    public Result logout(Context context) {
-        // remove any user dependent information
-        context.getSession().clear();
-        context.getFlashScope().success("login.logoutSuccessful");
-
-        return Results.redirect("/login");
     }
 
     ///////////////////////////////////////////////////////////////////////////

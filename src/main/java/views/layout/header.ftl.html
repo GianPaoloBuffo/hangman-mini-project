@@ -15,8 +15,7 @@
 			<ul class="navbar-right nav navbar-nav">
 				<#if (session.username)??>
 					<li><a href="#">${session.username}</a></li>
-					<!-- TODO Add functionality to start new game -->
-					<li><a href="#">New Game</a></li>
+					<li><a href="/reset">New Game</a></li>
 					<li><a href="/logout">${i18n("header.logout")}</a></li>
 				<#else>
 					<li><a href="/login" id="login">${i18n("header.login")}</a></li>

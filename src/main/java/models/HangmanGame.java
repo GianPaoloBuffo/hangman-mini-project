@@ -12,26 +12,71 @@ public class HangmanGame {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String wordToGuess;
-    private byte numTriesLeft;
+    private String username;
+
+    private String word_to_guess;
+    private String guess;
+    private byte num_tries_left;
+    private boolean victory;
+    private boolean defeat;
+
+    public HangmanGame() {
+    }
+
+    public HangmanGame(String username, String word, String guess, byte tries) {
+        this.username = username;
+        this.word_to_guess = word;
+        this.guess = guess;
+        this.num_tries_left = tries;
+        this.victory = false;
+        this.defeat = false;
+    }
 
     public Long getId() {
         return id;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     public String getWordToGuess() {
-        return wordToGuess;
+        return word_to_guess;
+    }
+
+    public String getGuess() {
+        return guess;
+    }
+
+    public void setGuess(String guess) {
+        this.guess = guess;
     }
 
     public void setWordToGuess(String wordToGuess) {
-        this.wordToGuess = wordToGuess;
+        this.word_to_guess = wordToGuess;
     }
 
     public byte getNumTriesLeft() {
-        return numTriesLeft;
+        return num_tries_left;
     }
 
     public void setNumTriesLeft(byte numTriesLeft) {
-        this.numTriesLeft = numTriesLeft;
+        this.num_tries_left = numTriesLeft;
+    }
+
+    public boolean isVictory() {
+        return victory;
+    }
+
+    public void setVictory(boolean victory) {
+        this.victory = victory;
+    }
+
+    public boolean isDefeat() {
+        return defeat;
+    }
+
+    public void setDefeat(boolean defeat) {
+        this.defeat = defeat;
     }
 }

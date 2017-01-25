@@ -32,12 +32,11 @@ public class Routes implements ApplicationRoutes {
 
     /**
      * Using a (almost) nice DSL we can configure the router.
-     *
+     * <p>
      * The second argument NinjaModuleDemoRouter contains all routes of a
      * submodule. By simply injecting it we activate the routes.
      *
-     * @param router
-     *            The default router of this application
+     * @param router The default router of this application
      */
     @Override
     public void init(Router router) {
@@ -47,7 +46,6 @@ public class Routes implements ApplicationRoutes {
         ///////////////////////////////////////////////////////////////////////
         router.GET().route("/login").with(AuthenticationController.class, "login");
         router.POST().route("/login").with(AuthenticationController.class, "loginPost");
-        router.GET().route("/logout").with(AuthenticationController.class, "logout");
 
         ///////////////////////////////////////////////////////////////////////
         // Register
@@ -60,6 +58,8 @@ public class Routes implements ApplicationRoutes {
         ///////////////////////////////////////////////////////////////////////
         router.GET().route("/game").with(GameController.class, "game");
         router.POST().route("/game").with(GameController.class, "gamePost");
+        router.GET().route("/reset").with(GameController.class, "reset");
+        router.GET().route("/logout").with(GameController.class, "logout");
 
         ///////////////////////////////////////////////////////////////////////
         // Assets (pictures / javascript)

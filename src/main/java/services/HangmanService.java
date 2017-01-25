@@ -1,23 +1,22 @@
 package services;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import dao.HangmanGameDao;
-import ninja.Results;
+import models.HangmanGame;
 import ninja.Result;
+import ninja.Results;
 
-import javax.persistence.EntityManager;
 import java.util.Random;
 
 public class HangmanService {
 
     @Inject
-    HangmanGameDao gameDao;
+    private HangmanGameDao gameDao;
 
     @Inject
-    Provider<EntityManager> entityManagerProvider;
+    private HangmanGame game;
 
-    private final byte MAX_TRIES = 6;
+    private static final byte MAX_TRIES = 6;
 
     private String word;
     private byte tries = 0;
@@ -42,18 +41,65 @@ public class HangmanService {
             "imperfect"
     };
 
-    public void startGame() {
+    public void startGame(String username) {
         if (!gameRunning) {
-            word = getRandomWord(words);
 
-            guess = "";
-            for (int i = 0; i < word.length(); i++) {
-                guess += "-";
+            game = gameDao.getGame(username);
+
+            if (game == null) {
+                createNewGame(username);
+            } else {
+                loadGame(game);
             }
 
             gameRunning = true;
         }
 
+    }
+
+    private void loadGame(HangmanGame game) {
+        word = game.getWordToGuess();
+        guess = game.getGuess();
+        tries = game.getNumTriesLeft();
+        victory = game.isVictory();
+        defeat = game.isDefeat();
+    }
+
+    private void createNewGame(String username) {
+        resetGuessAndWord();
+
+        tries = 0;
+        victory = false;
+        defeat = false;
+
+        game = gameDao.createNewGame(username, word, guess);
+    }
+
+    private void resetGuessAndWord() {
+        word = getRandomWord(words);
+
+        guess = "";
+        for (int i = 0; i < word.length(); i++) {
+            guess += "-";
+        }
+    }
+
+    public Result reset() {
+        resetGuessAndWord();
+
+        game.setWordToGuess(word);
+        game.setGuess(guess);
+        tries = 0;
+        game.setNumTriesLeft((byte) 0);
+        game.setVictory(false);
+        game.setDefeat(false);
+
+        victory = false;
+        defeat = false;
+
+        gameDao.saveGame(game);
+
+        return Results.redirect("/game");
     }
 
     public Result guess(char letter) {
@@ -66,31 +112,39 @@ public class HangmanService {
             if (word.charAt(i) == letter) {
                 newGuess += letter;
                 correctGuess = true;
-            }
-            else {
+            } else {
                 newGuess += guess.charAt(i);
             }
         }
 
         if (newGuess.equals(word)) {
             victory = true;
-        }
-        else if (!correctGuess) {
-            tries++;
+            game.setVictory(true);
+        } else if (!correctGuess) {
+            game.setNumTriesLeft(++tries);
+
             if (tries == MAX_TRIES) {
                 guess = word;
                 defeat = true;
+                game.setDefeat(true);
             }
         }
 
         if (!defeat) {
             guess = newGuess;
+            game.setGuess(guess);
         }
+
+        saveGame(game);
 
         return Results.redirect("/game");
     }
 
-    public static String getRandomWord(String[] array) {
+    private void saveGame(HangmanGame game) {
+        gameDao.saveGame(game);
+    }
+
+    private static String getRandomWord(String[] array) {
         int rnd = new Random().nextInt(array.length);
         return array[rnd];
     }
@@ -107,12 +161,8 @@ public class HangmanService {
         return guess;
     }
 
-    public boolean isGameRunning() {
-        return gameRunning;
-    }
-
-    public void setGameRunning(boolean gameRunning) {
-        this.gameRunning = gameRunning;
+    public void stopGame() {
+        gameRunning = false;
     }
 
     public boolean isVictory() {
