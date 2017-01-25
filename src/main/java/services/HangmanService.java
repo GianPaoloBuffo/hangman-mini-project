@@ -6,6 +6,11 @@ import models.HangmanGame;
 import ninja.Result;
 import ninja.Results;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Random;
 
 public class HangmanService {
@@ -76,7 +81,12 @@ public class HangmanService {
     }
 
     private void resetGuessAndWord() {
-        word = getRandomWord(words);
+        try {
+            word = getRandomWord();
+        }
+        catch (IOException e) {
+            word = getRandomWord(words);
+        }
 
         guess = "";
         for (int i = 0; i < word.length(); i++) {
@@ -142,6 +152,21 @@ public class HangmanService {
 
     private void saveGame(HangmanGame game) {
         gameDao.saveGame(game);
+    }
+
+    public static String getRandomWord() throws IOException {
+        StringBuilder result = new StringBuilder();
+        String urlToRead = "http://randomword.setgetgo.com/get.php";
+        URL url = new URL(urlToRead);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String line;
+        while ((line = rd.readLine()) != null) {
+            result.append(line);
+        }
+        rd.close();
+        return result.toString();
     }
 
     private static String getRandomWord(String[] array) {
