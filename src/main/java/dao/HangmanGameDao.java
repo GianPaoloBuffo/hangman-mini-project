@@ -14,7 +14,7 @@ import java.util.List;
 public class HangmanGameDao {
 
     @Inject
-    Provider<EntityManager> entityManagerProvider;
+    private Provider<EntityManager> entityManagerProvider;
 
     @UnitOfWork
     public HangmanGame getGame(String username) {

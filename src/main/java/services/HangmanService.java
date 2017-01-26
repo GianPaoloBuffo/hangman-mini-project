@@ -28,6 +28,7 @@ public class HangmanService {
     private boolean gameRunning = false;
     private boolean victory = false;
     private boolean defeat = false;
+    private String guesses = "";
 
     public String guess = "";
 
@@ -68,6 +69,7 @@ public class HangmanService {
         tries = game.getNumTriesLeft();
         victory = game.isVictory();
         defeat = game.isDefeat();
+        guesses = game.getGuesses();
     }
 
     private void createNewGame(String username) {
@@ -76,6 +78,7 @@ public class HangmanService {
         tries = 0;
         victory = false;
         defeat = false;
+        guesses = "";
 
         game = gameDao.createNewGame(username, word, guess);
     }
@@ -83,8 +86,7 @@ public class HangmanService {
     private void resetGuessAndWord() {
         try {
             word = getRandomWord();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             word = getRandomWord(words);
         }
 
@@ -103,6 +105,8 @@ public class HangmanService {
         game.setNumTriesLeft((byte) 0);
         game.setVictory(false);
         game.setDefeat(false);
+        guesses = "";
+        game.setGuesses(guesses);
 
         victory = false;
         defeat = false;
@@ -113,8 +117,12 @@ public class HangmanService {
     }
 
     public Result guess(char letter) {
+
         letter = Character.toUpperCase(letter);
         word = word.toUpperCase();
+
+        guesses += " " + letter;
+        game.setGuesses(guesses);
 
         String newGuess = "";
         boolean correctGuess = false;
@@ -154,7 +162,7 @@ public class HangmanService {
         gameDao.saveGame(game);
     }
 
-    public static String getRandomWord() throws IOException {
+    private static String getRandomWord() throws IOException {
         StringBuilder result = new StringBuilder();
         String urlToRead = "http://randomword.setgetgo.com/get.php";
         URL url = new URL(urlToRead);
@@ -196,5 +204,9 @@ public class HangmanService {
 
     public boolean isDefeat() {
         return defeat;
+    }
+
+    public String getGuesses() {
+        return guesses;
     }
 }

@@ -31,6 +31,7 @@ public class GameController {
         result.render("gameTries", hangmanService.getTries());
         result.render("gameVictory", hangmanService.isVictory());
         result.render("gameDefeat", hangmanService.isDefeat());
+        result.render("gameGuesses", hangmanService.getGuesses());
 
         return result;
     }

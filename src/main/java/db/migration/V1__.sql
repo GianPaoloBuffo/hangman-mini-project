@@ -10,6 +10,7 @@ CREATE TABLE HangmanGame (
     username VARCHAR(255),
     word_to_guess VARCHAR(255),
     guess VARCHAR(255),
+    guesses VARCHAR(255),
     num_tries_left SMALLINT,
     victory BOOLEAN,
     defeat BOOLEAN

@@ -16,6 +16,7 @@ public class HangmanGame {
 
     private String word_to_guess;
     private String guess;
+    private String guesses;
     private byte num_tries_left;
     private boolean victory;
     private boolean defeat;
@@ -30,6 +31,7 @@ public class HangmanGame {
         this.num_tries_left = tries;
         this.victory = false;
         this.defeat = false;
+        this.guesses = "";
     }
 
     public Long getId() {
@@ -50,6 +52,14 @@ public class HangmanGame {
 
     public void setGuess(String guess) {
         this.guess = guess;
+    }
+
+    public String getGuesses() {
+        return guesses;
+    }
+
+    public void setGuesses(String guesses) {
+        this.guesses = guesses;
     }
 
     public void setWordToGuess(String wordToGuess) {
